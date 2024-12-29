@@ -212,29 +212,16 @@
 
   onMounted(async () => {
     try {
-      if (props.pds) {
-        pdsEndpoint.value = props.pds
-      } else {
-        pdsEndpoint.value = await bskyutils.getPDSEndpointByDID(props.did)
-      }
-      if (props.profile) {
-        profile.value = props.profile
-        handle.value =
-          (props.profile.handle as string) ??
-          (await bskyutils.resolveDID(props.did, true)) ??
-          'Unknown'
-        displayName.value =
-          props.profile.displayName ??
-          (props.profile.handle as string) ??
-          'Unknown'
-      } else {
-        handle.value = await bskyutils.resolveDID(props.did, true)
-        const profileRecord = (await bskyutils.loadProfile(
-          props.did,
-          pdsEndpoint.value
-        )) as AppBskyActorProfile.Record
-        profile.value = profileRecord
-      }
+      pdsEndpoint.value = props.pds
+      profile.value = props.profile
+      handle.value =
+        (props.profile.handle as string) ??
+        (await bskyutils.resolveDID(props.did, true)) ??
+        'Unknown'
+      displayName.value =
+        props.profile.displayName ??
+        (props.profile.handle as string) ??
+        'Unknown'
 
       postURL.value = ClientPost.getPermanentLink(
         handle.value ?? props.did,
